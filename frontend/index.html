@@ -1,0 +1,767 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BulBeni | Akıllı Kayıp Eşya Eşleştirici</title>
+
+  <style>
+    :root {
+      --navy: #172b4d;
+      --blue: #315efb;
+      --mint: #d9f8ed;
+      --green: #16856b;
+      --bg: #f5f8fc;
+      --text: #25344b;
+      --muted: #78869b;
+      --border: #e3eaf2;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    header {
+      background: white;
+      border-bottom: 1px solid var(--border);
+      padding: 20px 7%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      color: var(--navy);
+      font-size: 23px;
+      font-weight: 800;
+      letter-spacing: -0.8px;
+    }
+
+    .brand-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: var(--navy);
+      color: white;
+      font-size: 25px;
+    }
+
+    .brand span {
+      color: var(--blue);
+    }
+
+    .campus-tag {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--green);
+      background: #e5f8f0;
+      border-radius: 30px;
+      padding: 10px 15px;
+    }
+
+    main {
+      width: min(920px, 90%);
+      margin: 55px auto;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 35px;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      background: #e9efff;
+      color: var(--blue);
+      padding: 8px 13px;
+      border-radius: 30px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 17px;
+    }
+
+    h1 {
+      font-size: clamp(30px, 5vw, 43px);
+      color: var(--navy);
+      letter-spacing: -1.5px;
+      line-height: 1.2;
+      margin-bottom: 15px;
+    }
+
+    h1 span {
+      color: var(--blue);
+    }
+
+    .hero p {
+      color: var(--muted);
+      max-width: 530px;
+      margin: auto;
+      line-height: 1.8;
+      font-size: 15px;
+    }
+
+    .workspace {
+      background: white;
+      padding: 30px;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      box-shadow: 0 15px 45px rgba(30, 55, 90, 0.06);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .field {
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      padding: 19px;
+      background: #fcfdff;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      min-width: 0;
+    }
+
+    .field:focus-within {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(49, 94, 251, 0.08);
+    }
+
+    .field-heading {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .field-icon {
+      display: grid;
+      place-items: center;
+      width: 39px;
+      height: 39px;
+      border-radius: 12px;
+      background: #eaf0ff;
+      font-size: 19px;
+      flex-shrink: 0;
+    }
+
+    .found .field-icon {
+      background: var(--mint);
+    }
+
+    .field h2 {
+      font-size: 15px;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+
+    .field small {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 145px;
+      resize: vertical;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: var(--text);
+      font: inherit;
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    textarea::placeholder {
+      color: #a0aabc;
+    }
+
+    .field-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      padding-top: 12px;
+      border-top: 1px solid #edf1f6;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .example {
+      border: none;
+      background: transparent;
+      color: var(--blue);
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 11px;
+    }
+
+    .action-area {
+      text-align: center;
+      margin-top: 27px;
+    }
+
+    .match-btn {
+      width: 100%;
+      padding: 17px;
+      border: none;
+      border-radius: 14px;
+      background: var(--blue);
+      color: white;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 8px 18px rgba(49, 94, 251, 0.18);
+    }
+
+    .match-btn:hover {
+      background: #244be0;
+      transform: translateY(-1px);
+    }
+
+    .match-btn:disabled {
+      opacity: 0.65;
+      cursor: wait;
+      transform: none;
+    }
+
+    .privacy-note {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 13px;
+    }
+
+    .result {
+      display: none;
+      margin-top: 25px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 25px;
+      background: #fbfcff;
+      animation: appear 0.35s ease;
+    }
+
+    .result.show {
+      display: block;
+    }
+
+    .result-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 19px;
+    }
+
+    .result h2 {
+      color: var(--navy);
+      font-size: 17px;
+      margin-bottom: 6px;
+    }
+
+    .result-description {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .score {
+      font-size: 35px;
+      font-weight: 800;
+      color: var(--green);
+      white-space: nowrap;
+    }
+
+    .score small {
+      font-size: 17px;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 10px;
+      border-radius: 30px;
+      overflow: hidden;
+      background: #e9eef5;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0;
+      background: var(--green);
+      border-radius: inherit;
+      transition: width 0.8s ease;
+    }
+
+    .result-message {
+      margin-top: 15px;
+      padding: 13px;
+      border-radius: 11px;
+      background: #e5f8f0;
+      color: #176c57;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .result-message.low {
+      background: #fff3e5;
+      color: #95581b;
+    }
+
+    .error {
+      display: none;
+      background: #fff0f0;
+      color: #b42332;
+      border: 1px solid #ffd8dc;
+      border-radius: 12px;
+      padding: 14px;
+      margin-top: 18px;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .error.show {
+      display: block;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 15px;
+      height: 15px;
+      border: 2px solid rgba(255, 255, 255, 0.45);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+
+    .how-it-works {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-top: 24px;
+    }
+
+    .step {
+      padding: 19px 14px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      text-align: center;
+    }
+
+    .step-icon {
+      font-size: 23px;
+      margin-bottom: 9px;
+    }
+
+    .step strong {
+      display: block;
+      color: var(--navy);
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+
+    .step p {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 11px;
+      padding: 25px 15px 35px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes appear {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 650px) {
+      header {
+        padding: 16px 5%;
+      }
+
+      .brand {
+        font-size: 20px;
+      }
+
+      .campus-tag {
+        font-size: 10px;
+        padding: 8px 10px;
+      }
+
+      main {
+        width: 92%;
+        margin: 35px auto;
+      }
+
+      .workspace {
+        padding: 18px;
+        border-radius: 19px;
+      }
+
+      .form-grid,
+      .how-it-works {
+        grid-template-columns: 1fr;
+      }
+
+      .field {
+        padding: 15px;
+      }
+
+      .result {
+        padding: 18px;
+      }
+
+      .score {
+        font-size: 29px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="brand">
+      <div class="brand-icon">⌕</div>
+      Bul<span>Beni</span>
+    </div>
+    <div class="campus-tag">🎓 Kampüsün akıllı yardımcısı</div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="eyebrow">✦ YAPAY ZEKA DESTEKLİ EŞLEŞTİRME</div>
+      <h1>Kayıp eşyanı <span>birlikte bulalım.</span></h1>
+      <p>
+        Kaybettiğin eşyayı tarif et, bulunan eşyalarla karşılaştıralım.
+        Belki de aradığın şey sandığından daha yakındır.
+      </p>
+    </section>
+
+    <section class="workspace">
+      <form id="matchForm">
+        <div class="form-grid">
+
+          <div class="field">
+            <div class="field-heading">
+              <div class="field-icon">🔎</div>
+              <div>
+                <h2>Kaybolan eşya</h2>
+                <small>Aradığın eşyayı tarif et</small>
+              </div>
+            </div>
+
+            <textarea
+              id="lost"
+              name="lost_description"
+              maxlength="1500"
+              required
+              placeholder="Örn. Kütüphanede siyah, üzerinde küçük bir etiket bulunan mataramı kaybettim..."
+            ></textarea>
+
+            <div class="field-footer">
+              <span id="lostCount">0 / 1500</span>
+              <button type="button" class="example" id="lostExample">
+                Örnek ekle ↗
+              </button>
+            </div>
+          </div>
+
+          <div class="field found">
+            <div class="field-heading">
+              <div class="field-icon">📦</div>
+              <div>
+                <h2>Bulunan eşya</h2>
+                <small>Bulunan eşyanın açıklaması</small>
+              </div>
+            </div>
+
+            <textarea
+              id="found"
+              name="found_description"
+              maxlength="1500"
+              required
+              placeholder="Örn. Kütüphanenin ikinci katında siyah bir su matarası bulundu..."
+            ></textarea>
+
+            <div class="field-footer">
+              <span id="foundCount">0 / 1500</span>
+              <button type="button" class="example" id="foundExample">
+                Örnek ekle ↗
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="action-area">
+          <button type="submit" class="match-btn" id="matchButton">
+            ✨ Eşleşme Oranını Bul
+          </button>
+          <p class="privacy-note">
+            🔒 Açıklamalar eşleştirme için API'ye gönderilir.
+          </p>
+        </div>
+      </form>
+
+      <div class="error" id="errorBox" role="alert"></div>
+
+      <section class="result" id="resultBox" aria-live="polite">
+        <div class="result-top">
+          <div>
+            <h2>Eşleşme analizi tamamlandı</h2>
+            <p class="result-description">
+              İki eşya açıklamasının benzerlik oranı
+            </p>
+          </div>
+          <div class="score">
+            <span id="scoreValue">0</span><small>%</small>
+          </div>
+        </div>
+
+        <div
+          class="progress-track"
+          role="progressbar"
+          aria-label="Eşleşme oranı"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow="0"
+          id="progressTrack"
+        >
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div class="result-message" id="resultMessage"></div>
+      </section>
+    </section>
+
+    <section class="how-it-works">
+      <div class="step">
+        <div class="step-icon">✍️</div>
+        <strong>01. Açıklamaları gir</strong>
+        <p>Kaybolan ve bulunan eşyayı tarif et.</p>
+      </div>
+
+      <div class="step">
+        <div class="step-icon">🧠</div>
+        <strong>02. Yapay zekâ karşılaştırsın</strong>
+        <p>Backend, açıklamalar arasındaki benzerliği hesaplasın.</p>
+      </div>
+
+      <div class="step">
+        <div class="step-icon">🎯</div>
+        <strong>03. Sonucu incele</strong>
+        <p>Oranı gör ve olası eşleşmeyi değerlendir.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    BulBeni © 2026 · Daha iyi bir kampüs, daha az kayıp eşya.
+  </footer>
+
+  <script>
+    // FastAPI endpoint adresi
+    const API_URL = "http://localhost:8000/match";
+
+    const lostInput = document.getElementById("lost");
+    const foundInput = document.getElementById("found");
+    const form = document.getElementById("matchForm");
+    const button = document.getElementById("matchButton");
+    const resultBox = document.getElementById("resultBox");
+    const errorBox = document.getElementById("errorBox");
+
+    // Karakter sayaçları
+    lostInput.addEventListener("input", () => {
+      document.getElementById("lostCount").textContent =
+        `${lostInput.value.length} / 1500`;
+    });
+
+    foundInput.addEventListener("input", () => {
+      document.getElementById("foundCount").textContent =
+        `${foundInput.value.length} / 1500`;
+    });
+
+    // Örnek açıklamalar
+    document.getElementById("lostExample").addEventListener("click", () => {
+      lostInput.value =
+        "Kütüphanede siyah renkli, üzerinde küçük beyaz bir etiket bulunan su matarımı kaybettim.";
+
+      lostInput.dispatchEvent(new Event("input"));
+    });
+
+    document.getElementById("foundExample").addEventListener("click", () => {
+      foundInput.value =
+        "Üniversite kütüphanesinin ikinci katında siyah, beyaz etiketli bir matara bulundu.";
+
+      foundInput.dispatchEvent(new Event("input"));
+    });
+
+    // API yanıtından eşleşme puanını al
+    function getScore(data) {
+      let value;
+
+      if (typeof data === "number" || typeof data === "string") {
+        value = Number(data);
+      } else if (data && typeof data === "object") {
+        value =
+          data.similarity_score ??
+          data.match_percentage ??
+          data.similarity ??
+          data.score;
+      }
+
+      value = Number(value);
+
+      if (!Number.isFinite(value) || value < 0) {
+        throw new Error(
+          "API yanıtında geçerli bir eşleşme oranı bulunamadı."
+        );
+      }
+
+      // 0-1 aralığındaki değerleri yüzdeye dönüştür
+      if (value > 0 && value <= 1) {
+        value *= 100;
+      }
+
+      if (value > 100) {
+        throw new Error("Eşleşme oranı 100'den büyük olamaz.");
+      }
+
+      return Math.round(value);
+    }
+
+    // Sonucu ekranda göster
+    function showResult(score) {
+      document.getElementById("scoreValue").textContent = score;
+
+      const fill = document.getElementById("progressFill");
+      const track = document.getElementById("progressTrack");
+      const message = document.getElementById("resultMessage");
+      const scoreValue = document.getElementById("scoreValue");
+
+      fill.style.width = `${score}%`;
+      track.setAttribute("aria-valuenow", score);
+
+      if (score >= 75) {
+        fill.style.background = "#16856b";
+        scoreValue.style.color = "#16856b";
+        message.className = "result-message";
+        message.textContent =
+          "🎉 Yüksek benzerlik! Bu eşya aradığın eşya olabilir. Açıklamaları ve diğer bilgileri kontrol et.";
+      } else if (score >= 40) {
+        fill.style.background = "#d99724";
+        scoreValue.style.color = "#b77b15";
+        message.className = "result-message low";
+        message.textContent =
+          "🔍 Kısmi benzerlik bulundu. Eşyaların renk, tür ve konum bilgilerini karşılaştırabilirsin.";
+      } else {
+        fill.style.background = "#d65c67";
+        scoreValue.style.color = "#c34652";
+        message.className = "result-message low";
+        message.textContent =
+          "💡 Benzerlik düşük görünüyor. Başka bulunan eşya açıklamalarını da deneyebilirsin.";
+      }
+
+      resultBox.classList.add("show");
+    }
+
+    // Form gönderimi ve FastAPI bağlantısı
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const lost = lostInput.value.trim();
+      const found = foundInput.value.trim();
+
+      errorBox.classList.remove("show");
+      resultBox.classList.remove("show");
+
+      if (!lost || !found) {
+        errorBox.textContent =
+          "Lütfen her iki kutucuğu da doldur.";
+        errorBox.classList.add("show");
+        return;
+      }
+
+      button.disabled = true;
+      button.innerHTML =
+        '<span class="spinner"></span> Eşyalar karşılaştırılıyor...';
+
+      try {
+        const response = await fetch(API_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            lost_description: lost,
+            found_description: found
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error(
+            `Sunucu hatası: HTTP ${response.status}. Backend yanıtını kontrol et.`
+          );
+        }
+
+        const data = await response.json();
+        const score = getScore(data);
+
+        showResult(score);
+
+      } catch (error) {
+        console.error("Eşleştirme hatası:", error);
+
+        if (error instanceof TypeError) {
+          errorBox.textContent =
+            "API'ye bağlanılamadı. FastAPI sunucusunun çalıştığını, API adresini ve CORS ayarlarını kontrol et.";
+        } else {
+          errorBox.textContent =
+            error.message || "Bir hata oluştu. Lütfen tekrar dene.";
+        }
+
+        errorBox.classList.add("show");
+
+      } finally {
+        button.disabled = false;
+        button.textContent = "✨ Eşleşme Oranını Bul";
+      }
+    });
+  </script>
+</body>
+</html>
