@@ -1,26 +1,19 @@
 # Yapay Zeka Destekli Kayıp Eşya Eşleştirme Sistemi
 
-Merhabalar! Bu proje, kaybedilen eşyaların, yapay zeka metin analiz modelleri kullanılarak bulunan eşyalarla eşleştirilmesini sağlamak amacıyla geliştirilmiştir. 
+**🎥 Proje Demo Videosu:** https://drive.google.com/file/d/136mAj8jA4T3BYrB5yI9hiVeJgDN5S2-b/view?usp=sharing
 
-Projeyi geliştirirken ana odak noktam; sistemin sorunsuz çalışması, şartname kurallarına birebir uyması ve Docker ile herkesin tek tıkla çalıştırabileceği bir yapıda olmasıydı.
+## 📌 Problem
+Kampüs içerisinde veya geniş alanlarda kaybedilen eşyaların, bulan kişiler tarafından geleneksel yöntemlerle (WhatsApp grupları, panolar vb.) asıl sahibine ulaştırılmasının zorluğu ve bu süreçteki zaman kaybı.
 
-## 🛠️ Kullanılan Teknolojiler
-- **Yapay Zeka:** `sentence-transformers` (Eşya tanımlarını anlamsal olarak karşılaştırmak için)
-- **Backend:** FastAPI (Python)
-- **Frontend:** HTML, Vanilla JavaScript, Nginx
-- **Altyapı:** Docker & Docker Compose
+## 💡 Çözüm
+Kayıp ve bulunan eşya ilanlarının sisteme girilmesi ve Doğal Dil İşleme (NLP) modelleri kullanılarak bu ilanların anlamsal olarak eşleştirilmesi. Böylece kelimeler birebir aynı olmasa bile yapay zeka sayesinde doğru eşyalar birbirini bulabilmektedir.
 
-## ✅ Şartname Uygunluk Kontrol Listesi
-Proje, yarışma şartnamesindeki teknik gereksinimlere tam uygun şekilde paketlenmiştir:
+## 🤖 Yapay Zekâyı Nasıl Kullandık?
+**1. Ürün İçindeki Yapay Zeka:** Eşya tanımlarının anlamsal eşleşmesi için Hugging Face üzerinden `sentence-transformers` modelini (açık kaynak) yerel olarak Docker içinde kullandık. Hiçbir harici bulut API'si kullanılmamıştır.
+**2. Geliştirme Sürecindeki Yapay Zeka Asistanı:** Kodların yazılması, Docker yapılandırmasının oluşturulması ve hata ayıklama süreçlerinde Gemini yapay zeka asistanından destek aldım. Özellikle "CORS hatalarının çözümü" ve "Backend/Frontend Docker port yönlendirmeleri" gibi konularda spesifik istemler (promptlar) kullanarak çözüm mimarileri ürettim. Asistanın ürettiği şablon kodları, kendi proje yapıma ve şartname gereksinimlerine uygun şekilde manuel olarak düzenleyip entegre ettim.
 
-- **1. Konteyner Mimarisi:** Proje tamamen Dockerize edilmiştir. `docker-compose.yml` üzerinden hem frontend hem backend ayağa kalkmaktadır.
-- **2. Port Yönlendirmeleri:** Frontend (Arayüz) `http://localhost:3000`, Backend (API) `http://localhost:8000` portunda çalışmaktadır.
-- **3. Health Check (Sağlık Kontrolü):** Sistemin API'yi test edebilmesi için `http://localhost:8000/health` uç noktası oluşturulmuş ve aktiftir.
-- **4. CORS Güvenliği:** Backend tarafında CORS ayarları yapılmış, sadece frontend'in çalıştığı `http://localhost:3000` adresine izin verilmiştir.
-
-## 🚀 Projeyi Nasıl Çalıştırabilirsiniz?
-
-Bilgisayarınızda Docker Desktop'ın açık olduğundan emin olun. Ardından terminalde proje dizinindeyken şu komutu çalıştırmanız yeterlidir:
+## 🚀 Çalıştırma Adımları
+Proje klasör yapısı (backend/, frontend/ ve kök dizinde docker-compose.yml) şartnameye uygun hazırlanmış ve tamamen Dockerize edilmiştir. Çalıştırmak için proje dizininde terminale şu komutu girmeniz yeterlidir:
 
 ```bash
-docker compose up --build
+docker-compose up --build
