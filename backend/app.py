@@ -1,7 +1,7 @@
 import os
 
 from contextlib import asynccontextmanager
-
+from fastapi.middleware.cors import CORSMiddleware
 
 
 import torch
@@ -71,7 +71,13 @@ app = FastAPI(
     lifespan=lifespan,
 
 )
-
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 
@@ -232,4 +238,7 @@ def match_items(request: MatchRequest):
 
             detail="Metin benzerliği hesaplanamadı.",
 
-        ) from exc 
+        ) from exc
+@app.get("/health")
+def health_check():
+    return {"status": "ok", "message": "Backend ayakta"}
